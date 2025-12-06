@@ -1,4 +1,20 @@
-function Input({ label, id, name, value, onChange, type = "text" }) {
+interface InputProps {
+  label: string;
+  id: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+}
+
+const Input: React.FC<InputProps> = ({
+  label,
+  id,
+  name,
+  value,
+  onChange,
+  type = "text",
+}) => {
   return (
     <div>
       <label htmlFor={id} className="text-slate-300 block mb-1">
@@ -14,5 +30,6 @@ function Input({ label, id, name, value, onChange, type = "text" }) {
       />
     </div>
   );
-}
+};
+
 export default Input;
