@@ -1,8 +1,16 @@
 import { Transition } from "@headlessui/react";
 import useOutsideClick from "../hooks/useOutsideClick";
+import type React from "react";
 
-function Modal({ open, onClose, title, children }) {
-  const ref = useOutsideClick(onClose);
+interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}
+
+const Modal: React.FC<ModalProps> = ({ open, onClose, title, children }) => {
+  const ref = useOutsideClick<HTMLDivElement>(onClose);
 
   return (
     <Transition
@@ -30,5 +38,5 @@ function Modal({ open, onClose, title, children }) {
       </div>
     </Transition>
   );
-}
+};
 export default Modal;
