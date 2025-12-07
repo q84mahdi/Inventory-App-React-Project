@@ -4,19 +4,36 @@ import { HiOutlineChevronDown } from "react-icons/hi";
 import Modal from "../ui/Modal";
 import EditCategory from "./EditCategory";
 import { useCategories } from "../contexts/CategoriesContext";
+import type { CategoryType } from "../types/CategoryType";
+import type { ProductType } from "../types/ProductType";
 
-function SelectCategory({ productFormData, setProductFormData, edit }) {
+type ProductInfoType = Omit<ProductType, "createdAt" | "id">;
+
+interface SelectCategoryProps {
+  productFormData: ProductInfoType;
+  setProductFormData: React.Dispatch<React.SetStateAction<ProductInfoType>>;
+  edit: boolean;
+}
+
+const SelectCategory: React.FC<SelectCategoryProps> = ({
+  productFormData,
+  setProductFormData,
+  edit,
+}) => {
   const [isShown, setIsShown] = useState(false);
   const [editOpen, SetEditOpen] = useState(false);
 
   const { categories } = useCategories();
 
-  const changeCategoryHandler = (e, category) => {
+  const changeCategoryHandler = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    category: CategoryType
+  ) => {
     e.preventDefault();
     setIsShown(false);
     setProductFormData({
       ...productFormData,
-      category: category.id,
+      category: category.id.toString(),
     });
   };
 
@@ -36,7 +53,9 @@ function SelectCategory({ productFormData, setProductFormData, edit }) {
         >
           <div>
             {productFormData.category
-              ? categories.find((c) => c.id === productFormData.category).title
+              ? categories.find(
+                  (c) => c.id.toString() === productFormData.category
+                )?.title
               : "select a category ..."}
           </div>
           <HiOutlineChevronDown className="w-5 h-5" />
@@ -79,14 +98,16 @@ function SelectCategory({ productFormData, setProductFormData, edit }) {
           onClose={() => SetEditOpen(false)}
         >
           <EditCategory
-            category={categories.find(
-              (item) => item.id === productFormData.category
-            )}
+            category={
+              categories.find(
+                (item) => item.id.toString() === productFormData.category
+              )!
+            }
             SetEditOpen={SetEditOpen}
           />
         </Modal>
       </div>
     </div>
   );
-}
+};
 export default SelectCategory;
