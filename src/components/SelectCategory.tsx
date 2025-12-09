@@ -12,13 +12,13 @@ type ProductInfoType = Omit<ProductType, "createdAt" | "id">;
 interface SelectCategoryProps {
   productFormData: ProductInfoType;
   setProductFormData: React.Dispatch<React.SetStateAction<ProductInfoType>>;
-  edit: boolean;
+  edit?: boolean;
 }
 
 const SelectCategory: React.FC<SelectCategoryProps> = ({
   productFormData,
   setProductFormData,
-  edit,
+  edit = false,
 }) => {
   const [isShown, setIsShown] = useState(false);
   const [editOpen, SetEditOpen] = useState(false);

@@ -3,9 +3,10 @@ import ProductList from "./ProductList";
 import SearchBar from "./SearchBar";
 import SortBar from "./SortBar";
 import { useProducts } from "../contexts/ProductsContext";
+import type { ProductType } from "../types/ProductType";
 
-function ProductsList() {
-  const [filteredProducts, setFilteredProducts] = useState([]);
+const ProductsList: React.FC = () => {
+  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [sortDateValue, setSortDateValue] = useState("latest");
   const [sortCategoryValue, setSortCategoryValue] = useState("");
@@ -21,37 +22,35 @@ function ProductsList() {
     setFilteredProducts(result);
   }, [products, searchValue, sortDateValue, sortCategoryValue]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value.trim().toLocaleLowerCase());
   };
-  const handleSortDate = (e) => {
+  const handleSortDate = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortDateValue(e.target.value);
   };
-  const handleSortCategory = (e) => {
+  const handleSortCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortCategoryValue(e.target.value);
   };
 
-  const filterSearch = (array) => {
+  const filterSearch = (array: ProductType[]) => {
     return array.filter((product) =>
       product.title.trim().toLocaleLowerCase().includes(searchValue)
     );
   };
-  const filterSortDate = (array) => {
+  const filterSortDate = (array: ProductType[]) => {
     return array.sort((a, b) => {
       if (sortDateValue === "latest") {
         return new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1;
       } else if (sortDateValue === "earliest") {
         return new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1;
-      }
+      } else return -1;
     });
   };
-  const filterSortCategory = (array) => {
+  const filterSortCategory = (array: ProductType[]) => {
     if (sortCategoryValue === "") {
       return array;
     } else {
-      return array.filter(
-        (product) => product.category === parseInt(sortCategoryValue)
-      );
+      return array.filter((product) => product.category === sortCategoryValue);
     }
   };
 
@@ -64,8 +63,8 @@ function ProductsList() {
 
       {/* sort bar*/}
       <SortBar
-        sortDateValue={sortDateValue}
-        sortCategoryValue={sortCategoryValue}
+        sortDate={sortDateValue}
+        sortCategory={sortCategoryValue}
         onSortDate={handleSortDate}
         onSortCategory={handleSortCategory}
       />
@@ -78,5 +77,5 @@ function ProductsList() {
       </div>
     </div>
   );
-}
+};
 export default ProductsList;

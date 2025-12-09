@@ -3,8 +3,14 @@ import Button from "../ui/Button";
 import Input from "../ui/Input";
 import SelectCategory from "./SelectCategory";
 import { useProducts } from "../contexts/ProductsContext";
+import type { ProductType } from "../types/ProductType";
 
-function EditProduct({ SetEditOpen, product }) {
+interface EditProductProps {
+  SetEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  product: ProductType;
+}
+
+const EditProduct: React.FC<EditProductProps> = ({ SetEditOpen, product }) => {
   const [editProductFormData, setEditProductFormData] = useState({
     title: product.title,
     quantity: product.quantity,
@@ -13,21 +19,25 @@ function EditProduct({ SetEditOpen, product }) {
 
   const { products, setProducts } = useProducts();
 
-  const changeHandler = (e) => {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setEditProductFormData({ ...editProductFormData, [name]: value });
   };
 
-  const cancelHandler = (e) => {
+  const cancelHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     SetEditOpen(false);
   };
 
-  const editProductHandler = (e) => {
+  const editProductHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
-    let selectedProduct = products.find((item) => item.id === product.id);
+    let selectedProduct = products.find((item) => item.id === product.id)!;
     selectedProduct.title = editProductFormData.title;
     selectedProduct.quantity = editProductFormData.quantity;
     selectedProduct.category = editProductFormData.category;
@@ -54,7 +64,7 @@ function EditProduct({ SetEditOpen, product }) {
         label="Quantity"
         id="product-quantity"
         name="quantity"
-        value={editProductFormData.quantity}
+        value={editProductFormData.quantity.toString()}
         onChange={changeHandler}
         type="number"
       />
@@ -83,5 +93,5 @@ function EditProduct({ SetEditOpen, product }) {
       </div>
     </div>
   );
-}
+};
 export default EditProduct;
