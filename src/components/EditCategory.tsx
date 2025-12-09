@@ -2,8 +2,17 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import { useCategories } from "../contexts/CategoriesContext";
+import type { CategoryType } from "../types/CategoryType";
 
-function EditCategory({ category, SetEditOpen }) {
+interface EditCategoryProps {
+  category: CategoryType;
+  SetEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const EditCategory: React.FC<EditCategoryProps> = ({
+  category,
+  SetEditOpen,
+}) => {
   const [editCategoryFormData, setEditCategoryFormData] = useState({
     title: category.title,
     description: category.description,
@@ -11,21 +20,27 @@ function EditCategory({ category, SetEditOpen }) {
 
   const { categories, setCategories } = useCategories();
 
-  const changeHandler = (e) => {
+  const changeHandler = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     setEditCategoryFormData({ ...editCategoryFormData, [name]: value });
   };
 
-  const cancelHandler = (e) => {
+  const cancelHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     SetEditOpen(false);
   };
 
-  const editCategoryHandler = (e) => {
+  const editCategoryHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
-    let selectedCategory = categories.find((item) => item.id === category.id);
+    let selectedCategory = categories.find((item) => item.id === category.id)!;
     selectedCategory.title = editCategoryFormData.title;
     selectedCategory.description = editCategoryFormData.description;
     selectedCategory.createdAt = new Date().toISOString();
@@ -81,5 +96,5 @@ function EditCategory({ category, SetEditOpen }) {
       </div>
     </div>
   );
-}
+};
 export default EditCategory;

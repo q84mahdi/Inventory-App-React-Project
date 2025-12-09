@@ -4,7 +4,7 @@ import Button from "../ui/Button";
 import Input from "../ui/Input";
 import { useProducts } from "../contexts/ProductsContext";
 
-function ProductForm() {
+const ProductForm: React.FC = () => {
   const [productFormData, setProductFormData] = useState({
     title: "",
     quantity: 0,
@@ -13,13 +13,17 @@ function ProductForm() {
 
   const { setProducts } = useProducts();
 
-  const changeHandler = (e) => {
+  const changeHandler = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     setProductFormData({ ...productFormData, [name]: value });
   };
 
-  const cancelHandler = (e) => {
+  const cancelHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     setProductFormData({
       title: "",
@@ -28,7 +32,9 @@ function ProductForm() {
     });
   };
 
-  const addNewProductHandler = (e) => {
+  const addNewProductHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
     const newProduct = {
@@ -65,7 +71,7 @@ function ProductForm() {
             label="Quantity"
             id="product-quantity"
             name="quantity"
-            value={productFormData.quantity}
+            value={productFormData.quantity.toString()}
             onChange={changeHandler}
             type="number"
           />
@@ -98,5 +104,5 @@ function ProductForm() {
       </div>
     </div>
   );
-}
+};
 export default ProductForm;

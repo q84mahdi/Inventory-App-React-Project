@@ -3,7 +3,7 @@ import Button from "../ui/Button";
 import Input from "../ui/Input";
 import { useCategories } from "../contexts/CategoriesContext";
 
-function CategoryForm() {
+const CategoryForm: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
   const [categoryFormData, setCategoryFormData] = useState({
     title: "",
@@ -12,13 +12,17 @@ function CategoryForm() {
 
   const { setCategories } = useCategories();
 
-  const changeHandler = (e) => {
+  const changeHandler = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     setCategoryFormData({ ...categoryFormData, [name]: value });
   };
 
-  const cancelHandler = (e) => {
+  const cancelHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     setIsShown(false);
     setCategoryFormData({
@@ -27,7 +31,9 @@ function CategoryForm() {
     });
   };
 
-  const addNewCategoryHandler = (e) => {
+  const addNewCategoryHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
     const newCategory = {
@@ -102,5 +108,6 @@ function CategoryForm() {
       </div>
     </div>
   );
-}
+};
+
 export default CategoryForm;

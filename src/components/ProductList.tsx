@@ -3,15 +3,21 @@ import Modal from "../ui/Modal";
 import EditProduct from "./EditProduct";
 import { useCategories } from "../contexts/CategoriesContext";
 import { useProducts } from "../contexts/ProductsContext";
+import type { ProductType } from "../types/ProductType";
 
-function ProductList({ product }) {
+interface ProductListProps {
+  product: ProductType;
+}
+
+const ProductList: React.FC<ProductListProps> = ({ product }) => {
   const [editOpen, SetEditOpen] = useState(false);
 
   const { categories } = useCategories();
 
   const { setProducts } = useProducts();
 
-  const category = categories.find((c) => c.id === product.category).title;
+  const category =
+    categories.find((c) => c.id.toString() === product.category)?.title || "";
 
   const handleDeleteProduct = () => {
     setProducts((prevState) =>
@@ -59,5 +65,5 @@ function ProductList({ product }) {
       </div>
     </div>
   );
-}
+};
 export default ProductList;
