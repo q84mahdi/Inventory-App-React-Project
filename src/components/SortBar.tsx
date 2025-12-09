@@ -1,6 +1,18 @@
 import { useCategories } from "../contexts/CategoriesContext";
 
-function SortBar({ sortDate, sortCategory, onSortDate, onSortCategory }) {
+interface SortBarProps {
+  sortDate: string;
+  sortCategory: string;
+  onSortDate: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onSortCategory: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+const SortBar: React.FC<SortBarProps> = ({
+  sortDate,
+  sortCategory,
+  onSortDate,
+  onSortCategory,
+}) => {
   const { categories } = useCategories();
 
   return (
@@ -43,5 +55,5 @@ function SortBar({ sortDate, sortCategory, onSortDate, onSortCategory }) {
       </div>
     </div>
   );
-}
+};
 export default SortBar;

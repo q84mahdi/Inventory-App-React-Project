@@ -1,4 +1,9 @@
-function SearchBar({ searchValue, onSearch }) {
+interface SearchBarProps {
+  searchValue: string;
+  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ searchValue, onSearch }) => {
   return (
     <div className="flex items-center justify-between">
       <span className="text-slate-300">Search</span>
@@ -10,5 +15,5 @@ function SearchBar({ searchValue, onSearch }) {
       />
     </div>
   );
-}
+};
 export default SearchBar;
